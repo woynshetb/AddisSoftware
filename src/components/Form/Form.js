@@ -1,20 +1,75 @@
 import React, { useState , useEffect} from 'react';
-import { TextField , Button , Typography, Paper } from '@material-ui/core';
+import {  Typography  } from '@material-ui/core';
 import {useDispatch,useSelector} from 'react-redux';
 
-import useStyles from './styles.js';
-import {createPost,updatePost} from '../../actions/posts.js'
-//import { updatePost } from '../../../../backend/controllers/posts.js';
-// i commented the above imort and add updatepost from action post
 
-// we have to get current employee id 
+import {createPost,updatePost} from '../../actions/posts.js'
+import styled,{createGlobalStyle, css} from 'styled-components';
+
+
+  const GlobalStyle =createGlobalStyle`
+  html{
+    height: 100%;
+  }
+  body{
+    font-family: Arial, Helvetica, sans-serif,;
+   
+   
+  }
+  `
+  const sharedStyles = css`
+  background-color: #eee;
+  height: 40px;
+  border: 1px solid #ddd;
+  margin:10px 0 20px 0;
+  padding :20px;
+  box-sizing:border-box;
+  
+  `;
+  const StyledFormWrapper=styled.div`
+  
+  display: flex;
+  justify-content: right;
+  
+  height: 100vh;
+  padding: 0 20px ;
+  `
+  const StyledForm =styled.form`
+  width: 100%;
+  height: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-sizing:border-box;
+  box-shadow:0px 0px 20px 0px rgba(0,0,0,0.2)
+  `
+  const StyledInput=styled.input`
+  display:block;
+  width:100%;
+  ${sharedStyles}
+  
+  `
+  const StyledButton=styled.button`
+  display: block;
+  background-color: brown;
+  color:#fff;
+  font-size:15px;
+  border:0;
+  border-radius: 5px;
+  height:30px;
+  padding: 0 5px;
+  cursor: pointer;
+  box-sizing: border-box;
+  
+  `
+  
 
 const Form = ({currentId, setCurrentId}) =>{
     const [postData, setPostData] = useState({
         name:'',salary:'',gender:'',birth_date:''
     });
     const post = useSelector((state)=> currentId ? state.posts.find((p) =>p._id === currentId):null);
-    const classes = useStyles();
+    
     const dispatch = useDispatch();
 
     useEffect(() =>{
@@ -40,22 +95,31 @@ const Form = ({currentId, setCurrentId}) =>{
         setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
     }
     return(
-       <Paper className ={classes.paper}>
-           <form autoComplete ="off" noValidate className = {classes.form} onSubmit ={handleSubmit} >
-            <Typography variant ="h6"> {currentId ? 'Edit' : 'Register'} Employee's Information </Typography>
-            
-            <TextField name = "name" variant = "outlined" label="Name" fullwidth value ={postData.name} onChange={(e)=>setPostData({ ...postData,name:e.target.value})}
-            />
-            <TextField name = "salary" variant = "outlined" label="Salary" fullwidth value ={postData.salary} onChange={(e)=>setPostData({ ...postData,salary:e.target.value})}
-            />
-            <TextField name = "gender" variant = "outlined" label="Gender" fullwidth value ={postData.gender} onChange={(e)=>setPostData({ ...postData,gender:e.target.value})}
-            />
-            <TextField name = "birth_date" variant = "outlined" label="Birth_Date" fullwidth value ={postData.birth_date} onChange={(e)=>setPostData({ ...postData,birth_date:e.target.value})}
-            />
-            <Button className={classes.buttonSubmit} variant="container" color="primary" size="large" type="submit" fullwidth>Register</Button>
-            <Button variant="contained" color="secondary" size="small" onClick={clear} fullwidth>Clear</Button>
-           </form>
-       </Paper>
+        <>
+        <GlobalStyle/>
+       <StyledFormWrapper>
+      <StyledForm autoComplete ="off" noValidate onSubmit ={handleSubmit}>
+          <Typography variant ="h6"> {currentId ? 'Edit' : 'Register'} Employee's Information </Typography>
+        <label htmlFor="name">Name</label>
+        <StyledInput name = "name" variant = "outlined" label="Name" fullwidth value ={postData.name} onChange={(e)=>setPostData({ ...postData,name:e.target.value})}>
+        </StyledInput>
+        <label htmlFor="salary">Salary</label>
+        <StyledInput name = "salary" variant = "outlined" label="Salary" fullwidth value ={postData.salary} onChange={(e)=>setPostData({ ...postData,salary:e.target.value})}>
+        </StyledInput>
+        <label htmlFor="gender">Gender</label>
+        <StyledInput TextField name = "gender" variant = "outlined" label="Gender" fullwidth value ={postData.gender} onChange={(e)=>setPostData({ ...postData,gender:e.target.value})}>
+        </StyledInput>
+        <label htmlFor="birthdate">Birthdate</label>
+        <StyledInput name = "birth_date" variant = "outlined" label="Birth_Date" fullwidth value ={postData.birth_date} onChange={(e)=>setPostData({ ...postData,birth_date:e.target.value})}>
+        </StyledInput>
+
+        <StyledButton variant="container" color="primary" size="large" type="submit" fullwidth>Register</StyledButton>
+
+      </StyledForm>
+    </StyledFormWrapper>
+
+       
+  </>
     );
 }
 
