@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Container, AppBar,Typography,Grow,Grid} from '@material-ui/core';
+import { Container,Grow,Grid} from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
 import {getPosts } from './actions/posts.js'
 import Posts from './components/Posts/Posts.js';
 import Form from './components/Form/Form.js';
-import useStyles from './styles.js';
+import useStyles from './styles.js'; // delete this
+import Nav from './components/NavBar'
+
 
 const App = () =>{
     const [currentId,setCurrentId]=useState(0);
-    const classes = useStyles();
+      // delete this
     const dispatch = useDispatch(); // redux hooks
     useEffect(()=>{
         dispatch(getPosts());
     },[currentId, dispatch])
     return (
       <Container maxidth="lg">
-          <AppBar className={classes.appBar} position = "static" color ="inherit">
-              <Typography className={classes.heading} variant ="h2" align ="center">Employee Information</Typography>
+          
+          <Nav/>
               <Grow in>
                   <Container>
                       <Grid container justify="space-between" alignItems="strech" spacing={3}>
@@ -31,9 +33,10 @@ const App = () =>{
                   </Container>
               </Grow>
 
-          </AppBar>
       </Container>
     );
 }
+
+
 
 export default App;
