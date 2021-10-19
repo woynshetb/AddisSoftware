@@ -1,28 +1,57 @@
 import React from 'react';
-import {Card,CardActions,CardContent,Button,Typography} from '@material-ui/core';
-import useStyles from './styles.js';
+import {CardActions,CardContent,Button,Typography} from '@material-ui/core';
+
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-// import EditIcon from '@material-ui/core/Edit';
 
 import { useDispatch} from 'react-redux';
 
 import {deletePost} from '../../../actions/posts.js';
+import styled from 'styled-components';
+const StyledCard = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  margin:10px;
+  padding: 10px;
+  flex-direction: ${({ layout }) => layout || 'row'};
+  
+    
+    div{
+      display: inline;
+    }
+    height: 100%;
+    position: relative;
+  & > div {
+    flex: 1;
+    display: inline;
+    
+    
+    
+  }
+  
+`
+
 const Post = ({post,setCurrentId}) =>{
-    const classes = useStyles();
+   
     const dispatch =useDispatch();
     return( 
-  <Card className={classes.card}>
+  <StyledCard >
           
-    <CardContent>
+    <div>
+    <label>Name</label>
+    <Typography variant='h5' color="textSecondary" gutterButton>{post.name}</Typography>
+    <label>Salary</label>
+    <Typography  variant='h5' color="textSecondary" gutterButton>{post.salary}</Typography>
+    <label>Gender</label>
+    <Typography variant='h5' color="textSecondary" gutterButton>{post.gender}</Typography>
+    <label>Birth date</label>
+    <Typography variant='h5' color="textSecondary" gutterButton>{post.birth_date}</Typography>
     
-    <Typography className={classes.title} variant='h5' color="textSecondary" gutterButton>{post.name}</Typography>
-    <Typography className={classes.title} variant='h5' color="textSecondary" gutterButton>{post.salary}</Typography>
-    <Typography className={classes.title} variant='h5' color="textSecondary" gutterButton>{post.gender}</Typography>
-    <Typography className={classes.title} variant='h5' color="textSecondary" gutterButton>{post.birth_date}</Typography>
-    
-    </CardContent>
-    <CardActions className={classes.cardActions}>
+    </div>
+    <CardActions>
     <div>
              <Button size="small" color="primary" 
                onClick={() => setCurrentId(post._id)}>
@@ -38,7 +67,7 @@ const Post = ({post,setCurrentId}) =>{
       </Button>
     </CardActions>
 
-        </Card>
+        </StyledCard>
     );
 }
 
